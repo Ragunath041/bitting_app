@@ -16,7 +16,6 @@ console.log(ProductDetail);
 const BidCard: React.FC<BidCardProps> = ({ product }) => {
   const [bidAmount, setBidAmount] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
   const { placeBid } = useProducts();
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -24,7 +23,7 @@ const BidCard: React.FC<BidCardProps> = ({ product }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+    localStorage.setItem('currentBid', bidAmount);
     try {
       const amount = parseFloat(bidAmount);
       
@@ -49,7 +48,7 @@ const BidCard: React.FC<BidCardProps> = ({ product }) => {
         setBidAmount('');
         setTimeout(() => {
           // return success;
-          navigate('/success',{state:success}); // Change this URL to whatever page you want
+          navigate('/success',{state:success}); 
         }, 1000);
       } else {
         toast({
@@ -88,7 +87,7 @@ const BidCard: React.FC<BidCardProps> = ({ product }) => {
             <div className="mb-4">
               <div className="text-muted-foreground">Current bid</div>
               <div className="text-3xl font-bold text-betting-primary">
-                ${product.currentBid?.toLocaleString() || product.price.toLocaleString()}
+                ${localStorage.getItem('currentBid') ? localStorage.getItem('currentBid') : product.currentBid?.toLocaleString() || product.price.toLocaleString()}
               </div>
             </div>
           </div>
